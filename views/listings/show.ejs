@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= listing.title %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="show-container">
+      <h1><%= listing.title %></h1>
+
+      <div class="show-image">
+        <img src="<%= listing.image %>" alt="<%= listing.title %>" />
+      </div>
+
+      <p><strong>Location:</strong> <%= listing.location %>, <%= listing.country %></p>
+      <p><strong>Price:</strong> ₹<%= listing.price %></p>
+      <p><strong>Description:</strong> <%= listing.description %></p>
+
+      <div class="action-buttons">
+        <a href="/listings/<%= listing._id %>/edit" class="edit-btn">Edit</a>
+
+        <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+          <button type="submit" class="delete-btn">Delete</button>
+        </form>
+      </div>
+
+      <a href="/listings" class="back-link">← Back to Listings</a>
+    </div>
+  </body>
+</html>

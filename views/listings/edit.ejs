@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit <%= listing.title %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <style>
+    .edit-container {
+      width: 60%;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .edit-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+    }
+
+    .edit-container form input,
+    .edit-container form textarea {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+    }
+
+    .save-btn {
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s ease-in-out;
+    }
+
+    .save-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <body>
+    <div class="edit-container">
+      <h1>Edit Listing</h1>
+
+      <form action="/listings/<%= listing._id %>?_method=PUT" method="POST">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="<%= listing.title %>"
+          required
+        />
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4"><%= listing.description %></textarea>
+
+        <label for="image">Image URL</label>
+        <input
+          type="text"
+          id="image"
+          name="image"
+          value="<%= listing.image %>"
+        />
+
+        <label for="price">Price</label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          value="<%= listing.price %>"
+        />
+
+        <label for="location">Location</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value="<%= listing.location %>"
+        />
+
+        <label for="country">Country</label>
+        <input
+          type="text"
+          id="country"
+          name="country"
+          value="<%= listing.country %>"
+        />
+
+        <button type="submit" class="save-btn">Save Changes</button>
+      </form>
+
+      <a href="/listings/<%= listing._id %>" class="back-link">← Cancel</a>
+    </div>
+  </body>
+</html>
