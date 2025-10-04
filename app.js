@@ -8,6 +8,8 @@ const methodOverride = require('method-override');
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,"views"));
+
+//middle-wares
 app.use(express.static(path.join(__dirname,"public")));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
@@ -27,39 +29,43 @@ app.get("/", (req, res) => {
     res.send(`This is root`);
 });
 
-app.get("/listings", async (req, res) => {
+app.get("/listings", async (req, res,next) => {
     try {
         let alllistings = await Listing.find({});
         res.render("listings/index.ejs",{listings : alllistings});
     }
     catch(err) {
-        console.log(err);
+        next(err);
     }
 });
 
-app.get("/listings/:id",async (req,res)=>{
+app.get("/listings/new",(req,res) => {
+    res.render("listings/new.ejs");
+})
+
+app.get("/listings/:id",async (req,res,next)=>{
     let {id} = req.params;
     try {
         let listing = await Listing.findById(id);
         res.render("listings/show.ejs",{listing});
     }
     catch(err){
-        console.log(err);
+        next(err);
     }
 });
 
-app.get("/listings/:id/edit",async (req,res)=>{
+app.get("/listings/:id/edit",async (req,res,next)=>{
     let {id} = req.params;
     try {
         let listing = await Listing.findById(id);
         res.render("listings/edit.ejs",{listing});
     }
     catch(err){
-        console.log(err);
+        next(err);
     }
 });
 
-app.put("/listings/:id",async (req,res)=>{
+app.put("/listings/:id",async (req,res,next)=>{
     let {id} = req.params;
     try {
         let updated = await Listing.findByIdAndUpdate(id,req.body,{runValidator:true,new:true});
@@ -67,11 +73,11 @@ app.put("/listings/:id",async (req,res)=>{
         res.redirect(`/listings/${id}`);
     }
     catch(err) {
-        console.log(err);
+        next(err)
     }
 })
 
-app.delete("/listings/:id",async (req,res)=>{
+app.delete("/listings/:id",async (req,res,next)=>{
     let {id} = req.params;
     try {
         let deleted_listing = await Listing.findByIdAndDelete(id);
@@ -79,8 +85,29 @@ app.delete("/listings/:id",async (req,res)=>{
         res.redirect(`/listings`);
     }
     catch(err) {
-        console.log(`error occured while deletion :- ${err}`);
+        // console.log(`error occured while deletion :- ${err}`);
+        next(err);
     }
+});
+
+
+app.all(/.*/, (req, res) => {
+    res.status(404).render("error.ejs", { status: 404, message: "Page Not Found" });
+});
+
+app.use((err, req, res, next) => {
+    console.error("🔥 Error Caught by Handler:", err.stack);
+
+    let status = err.status || 500;
+    let message = err.message || "Something went wrong!";
+
+    // ✅ If MongoDB ID is invalid — treat as 404 Not Found
+    if (err.name === "CastError") {
+        status = 404;
+        message = "Page Not Found";
+    }
+
+    res.status(status).render("error.ejs", { status, message });
 });
 
 app.listen(port, () => {
