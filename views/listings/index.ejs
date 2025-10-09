@@ -1,43 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Listings</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <style>
-    h1 {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-    }
-  </style>
-  <body>
-    <h1>All Listings</h1>
+<% layout('layouts/boilerplate') %>
+  <div class="container mt-5 pt-4">
+    <h1 class="text-center fw-bold mb-4">All Listings</h1>
     <% if (listings.length===0) { %>
-    <p>No listings available.</p>
-    <% } else { %>
-    <div class="listings-container">
-      <% listings.forEach(listing=> { %>
-      <a
-        href="/listings/<%= listing._id %>"
-        style="text-decoration: none; color: inherit"
-      >
-        <div class="listing-card">
-          <div
-            class="listing-img-card"
-            style="background-image: url('<%= listing.image %>')"
-          ></div>
-          <h2><%= listing.title %></h2>
-          <p><%= listing.location %></p>
+      <p class="text-center text-muted">No listings available.</p>
+      <% } else { %>
+        <div class="row g-4">
+          <% listings.forEach(listing=> { %>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 hover-card">
+                  <div class="position-relative">
+                    <img src="<%= listing.image %>" alt="<%= listing.title %>" class="card-img-top"
+                      style="height: 220px; object-fit: cover" />
+                    <span class="badge bg-light text-dark position-absolute top-0 start-0 m-2 fw-semibold shadow-sm">
+                      Guest favourite
+                    </span>
+                    <button class="btn btn-light rounded-circle position-absolute top-0 end-0 m-2 shadow-sm">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-1">
+                      <%= listing.title %>
+                    </h5>
+                    <p class="text-muted small mb-1">
+                      <%= listing.location %>
+                    </p>
+                    <p class="fw-semibold mb-0">
+                      ₹<%= listing.price.toLocaleString() %> for 2 nights
+                        <span class="text-muted">
+                          • ★ 4.<%= Math.floor(Math.random() * 9) + 80 %></span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <% }) %>
         </div>
-      </a>
-      <% }) %>
-    </div>
-    <% } %>
-  </body>
-</html>
+        <% } %>
+  </div>

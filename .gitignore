@@ -1,1 +1,35 @@
-node_modules
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build output (if you have frontend build)
+dist/
+build/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# MongoDB local files (if any)
+*.lock
+*.pid
+
+# Optional: coverage reports (if using tests)
+coverage/

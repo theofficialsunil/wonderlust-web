@@ -1,24 +1,27 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const port = 8080;
 const Listing = require('./models/listing.js');
 const path = require('path');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
+require('dotenv').config();
 
-app.set('view engine','ejs');
-app.set('views',path.join(__dirname,"views"));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, "views"));
 
 //middle-wares
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.engine('ejs',ejsMate);
 
+const port = process.env.PORT || 8080;
 main();
 async function main() {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+        await mongoose.connect(process.env.MONGO_URI);
         console.log('✅ Connected to DB');
     } catch (err) {
         console.error('❌ Database connection error:', err);
@@ -29,62 +32,64 @@ app.get("/", (req, res) => {
     res.send(`This is root`);
 });
 
-app.get("/listings", async (req, res,next) => {
-    try {
-        let alllistings = await Listing.find({});
-        res.render("listings/index.ejs",{listings : alllistings});
-    }
-    catch(err) {
-        next(err);
-    }
+app.get("/listings", async (req, res, next) => {
+  try {
+    let alllistings = await Listing.find({});
+    res.render("listings/index.ejs", {
+      title: "All Listings",
+      listings: alllistings,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-app.get("/listings/new",(req,res) => {
+app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 })
 
-app.get("/listings/:id",async (req,res,next)=>{
-    let {id} = req.params;
+app.get("/listings/:id", async (req, res, next) => {
+    let { id } = req.params;
     try {
         let listing = await Listing.findById(id);
-        res.render("listings/show.ejs",{listing});
+        res.render("listings/show.ejs", { listing });
     }
-    catch(err){
+    catch (err) {
         next(err);
     }
 });
 
-app.get("/listings/:id/edit",async (req,res,next)=>{
-    let {id} = req.params;
+app.get("/listings/:id/edit", async (req, res, next) => {
+    let { id } = req.params;
     try {
         let listing = await Listing.findById(id);
-        res.render("listings/edit.ejs",{listing});
+        res.render("listings/edit.ejs", { listing });
     }
-    catch(err){
+    catch (err) {
         next(err);
     }
 });
 
-app.put("/listings/:id",async (req,res,next)=>{
-    let {id} = req.params;
+app.put("/listings/:id", async (req, res, next) => {
+    let { id } = req.params;
     try {
-        let updated = await Listing.findByIdAndUpdate(id,req.body,{runValidator:true,new:true});
+        let updated = await Listing.findByIdAndUpdate(id, req.body, { runValidator: true, new: true });
         console.log(updated);
         res.redirect(`/listings/${id}`);
     }
-    catch(err) {
+    catch (err) {
         next(err)
     }
 })
 
-app.delete("/listings/:id",async (req,res,next)=>{
-    let {id} = req.params;
+app.delete("/listings/:id", async (req, res, next) => {
+    let { id } = req.params;
     try {
         let deleted_listing = await Listing.findByIdAndDelete(id);
         console.log(deleted_listing);
         res.redirect(`/listings`);
     }
-    catch(err) {
+    catch (err) {
         // console.log(`error occured while deletion :- ${err}`);
         next(err);
     }
@@ -111,5 +116,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-    console.log(`✅ Server running at http://localhost:${port}`);
+    console.log(`✅ Server running at http://localhost:${port}/listings`);
 });

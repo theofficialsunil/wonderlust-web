@@ -1,98 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add New Listing</title>
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <style>
-    /* Add New Listing Page */
-    .new-container {
-      width: 60%;
-      margin: 30px auto;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-    }
+<% layout('layouts/boilerplate') %>
 
-    /* Form Layout */
-    .new-container form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+<div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4 fw-bold text-primary">
+                Add New Listing
+              </h2>
 
-    /* Labels */
-    .new-container label {
-      text-align: left;
-      font-weight: 600;
-      margin-bottom: -8px;
-    }
+              <form action="/listings" method="POST">
+                <div class="mb-3">
+                  <label for="title" class="form-label fw-semibold">Title</label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="form-control"
+                    placeholder="Enter listing title"
+                    required
+                  />
+                </div>
 
-    /* Inputs & Textarea */
-    .new-container input,
-    .new-container textarea {
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-    }
+                <div class="mb-3">
+                  <label for="description" class="form-label fw-semibold"
+                    >Description</label
+                  >
+                  <textarea
+                    id="description"
+                    name="description"
+                    rows="3"
+                    class="form-control"
+                    placeholder="Describe your listing"
+                  ></textarea>
+                </div>
 
-    /* Submit Button */
-    .save-btn {
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: 0.2s ease-in-out;
-    }
+                <div class="mb-3">
+                  <label for="image" class="form-label fw-semibold"
+                    >Image URL</label
+                  >
+                  <input
+                    type="text"
+                    id="image"
+                    name="image"
+                    class="form-control"
+                    placeholder="Paste image link"
+                  />
+                </div>
 
-    .save-btn:hover {
-      background-color: #0056b3;
-    }
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="price" class="form-label fw-semibold">Price</label>
+                    <input
+                      type="number"
+                      id="price"
+                      name="price"
+                      class="form-control"
+                      placeholder="₹ per night"
+                      required
+                    />
+                  </div>
 
-    /* Back Link */
-    .back-link {
-      display: inline-block;
-      margin-top: 25px;
-      text-decoration: none;
-      color: #007bff;
-      font-size: 1rem;
-    }
+                  <div class="col-md-6 mb-3">
+                    <label for="country" class="form-label fw-semibold"
+                      >Country</label
+                    >
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      class="form-control"
+                      placeholder="Enter country"
+                      required
+                    />
+                  </div>
+                </div>
 
-    .back-link:hover {
-      text-decoration: underline;
-    }
-  </style>
-  <body>
-    <div class="new-container">
-      <h1>Add New Listing</h1>
-      <form action="/listings" method="POST">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" required />
+                <div class="mb-3">
+                  <label for="location" class="form-label fw-semibold"
+                    >Location</label
+                  >
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    class="form-control"
+                    placeholder="Enter city or area"
+                    required
+                  />
+                </div>
 
-        <label for="description">Description</label>
-        <textarea id="description" name="description" rows="4"></textarea>
+                <div class="d-grid mt-4">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle me-2"></i> Add Listing
+                  </button>
+                </div>
+              </form>
 
-        <label for="image">Image URL</label>
-        <input type="text" id="image" name="image" />
-
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price" />
-
-        <label for="location">Location</label>
-        <input type="text" id="location" name="location" />
-
-        <label for="country">Country</label>
-        <input type="text" id="country" name="country" />
-
-        <button type="submit" class="save-btn">Add Listing</button>
-      </form>
-      <a href="/listings" class="back-link">← Back to Listings</a>
-    </div>
-  </body>
-</html>
+              <div class="text-center mt-3">
+                <a href="/listings" class="text-decoration-none text-secondary">
+                  <i class="bi bi-arrow-left"></i> Back to Listings
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
