@@ -1,108 +1,152 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="container py-5">
-      <div class="row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
-          <div class="card shadow-sm border-0">
-            <div class="card-body p-4">
-              <h2 class="text-center mb-4 fw-bold text-primary">
-                Add New Listing
-              </h2>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4 fw-bold" style="color: #fd1f48;">
+                        Add New Listing
+                    </h2>
 
-              <form action="/listings" method="POST">
-                <div class="mb-3">
-                  <label for="title" class="form-label fw-semibold">Title</label>
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    class="form-control"
-                    placeholder="Enter listing title"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="description" class="form-label fw-semibold"
-                    >Description</label
-                  >
-                  <textarea
-                    id="description"
-                    name="description"
-                    rows="3"
-                    class="form-control"
-                    placeholder="Describe your listing"
-                  ></textarea>
-                </div>
-
-                <div class="mb-3">
-                  <label for="image" class="form-label fw-semibold"
-                    >Image URL</label
-                  >
-                  <input
-                    type="text"
-                    id="image"
-                    name="image"
-                    class="form-control"
-                    placeholder="Paste image link"
-                  />
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="price" class="form-label fw-semibold">Price</label>
-                    <input
-                      type="number"
-                      id="price"
-                      name="price"
-                      class="form-control"
-                      placeholder="₹ per night"
-                      required
-                    />
-                  </div>
-
-                  <div class="col-md-6 mb-3">
-                    <label for="country" class="form-label fw-semibold"
-                      >Country</label
+                    <form
+                        action="/listings"
+                        method="POST"
+                        novalidate
+                        class="needs-validation"
                     >
-                    <input
-                      type="text"
-                      id="country"
-                      name="country"
-                      class="form-control"
-                      placeholder="Enter country"
-                      required
-                    />
-                  </div>
-                </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-semibold"
+                                >Title</label
+                            >
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                class="form-control"
+                                placeholder="Enter listing title"
+                                required
+                            />
+                            <div class="invalid-feedback">
+                                Please enter valid Title
+                            </div>
+                        </div>
 
-                <div class="mb-3">
-                  <label for="location" class="form-label fw-semibold"
-                    >Location</label
-                  >
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    class="form-control"
-                    placeholder="Enter city or area"
-                    required
-                  />
-                </div>
+                        <div class="mb-3">
+                            <label
+                                for="description"
+                                class="form-label fw-semibold"
+                                >Description</label
+                            >
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows="3"
+                                class="form-control"
+                                placeholder="Describe your listing"
+                            ></textarea>
+                        </div>
 
-                <div class="d-grid mt-4">
-                  <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="bi bi-plus-circle me-2"></i> Add Listing
-                  </button>
-                </div>
-              </form>
+                        <div class="mb-3">
+                            <label for="image" class="form-label fw-semibold"
+                                >Image URL</label
+                            >
+                            <input
+                                type="text"
+                                id="image"
+                                name="image"
+                                class="form-control"
+                                placeholder="Paste image link"
+                            />
+                        </div>
 
-              <div class="text-center mt-3">
-                <a href="/listings" class="text-decoration-none text-secondary">
-                  <i class="bi bi-arrow-left"></i> Back to Listings
-                </a>
-              </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label
+                                    for="price"
+                                    class="form-label fw-semibold"
+                                    >Price</label
+                                >
+                                <input
+                                    type="number"
+                                    id="price"
+                                    name="price"
+                                    class="form-control"
+                                    placeholder="₹ per night"
+                                    required
+                                />
+                                <div class="invalid-feedback">
+                                    Enter valid Price
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label
+                                    for="country"
+                                    class="form-label fw-semibold"
+                                    >Country</label
+                                >
+                                <input
+                                    type="text"
+                                    id="country"
+                                    name="country"
+                                    class="form-control"
+                                    placeholder="Enter country"
+                                    required
+                                />
+                                <div class="invalid-feedback">
+                                    Enter country name
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="location" class="form-label fw-semibold"
+                                >Location</label
+                            >
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                class="form-control"
+                                placeholder="Enter city or area"
+                                required
+                            />
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg"
+                            >
+                                <i class="bi bi-plus-circle me-2"></i> Add
+                                Listing
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a
+                            href="/listings"
+                            class="text-decoration-none text-secondary"
+                        >
+                            <i class="bi bi-arrow-left"></i> Back to Listings
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+<style>
+.btn-primary {
+    background-color: #ff385c;
+    color: white;
+    border-color: #ffffff82;
+  }
+  .btn-primary:hover{
+    background-color: #fd1f48;
+    color: white;
+    border-color: #ffffff82;
+  }
+</style>
