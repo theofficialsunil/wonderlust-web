@@ -11,7 +11,7 @@
           <input
             type="text"
             id="title"
-            name="title"
+            name="listing[title]"
             class="form-control"
             value="<%= listing.title %>"
             required
@@ -22,7 +22,7 @@
           <label for="description" class="form-label fw-medium">Description</label>
           <textarea
             id="description"
-            name="description"
+            name="listing[description]"
             class="form-control"
             rows="4"
           ><%= listing.description %></textarea>
@@ -33,7 +33,7 @@
           <input
             type="text"
             id="image"
-            name="image"
+            name="listing[image]"
             class="form-control"
             value="<%= listing.image %>"
           />
@@ -45,7 +45,7 @@
             <input
               type="number"
               id="price"
-              name="price"
+              name="listing[price]"
               class="form-control"
               value="<%= listing.price %>"
               required
@@ -56,7 +56,7 @@
             <input
               type="text"
               id="location"
-              name="location"
+              name="listing[location]"
               class="form-control"
               value="<%= listing.location %>"
               required
@@ -69,7 +69,7 @@
           <input
             type="text"
             id="country"
-            name="country"
+            name="listing[country]"
             class="form-control"
             value="<%= listing.country %>"
             required

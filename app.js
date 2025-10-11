@@ -6,6 +6,9 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
+const ExpressError = require('./utils/ExpressError.js');
+// ** For Schema validation we use `joi` (npm-package);
+const listingSchema = require('./schema.js');
 
 require('dotenv').config();
 
@@ -34,6 +37,19 @@ app.get("/", (req, res) => {
     res.send(`This is root`);
 });
 
+//middle-ware to validate-Listing Schema
+const validateListing = (req,res,next) =>{
+    let {error} = listingSchema.validate(req.body);
+    if(error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400,errMsg);
+    }
+    else {
+        next();
+    }
+}
+
+
 app.get("/listings", wrapAsync(async (req, res, next) => {
     let alllistings = await Listing.find({});
     res.render("listings/index.ejs", {
@@ -47,8 +63,8 @@ app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 });
 
-app.post("/listings", wrapAsync(async (req, res, next) => {
-    let addedListing = await Listing.create(req.body);
+app.post("/listings",validateListing ,wrapAsync(async (req, res, next) => {
+    let addedListing = await Listing.create(req.body.listing);
     console.log(`added-Listing :- `, addedListing);
     res.redirect("/listings");
 })
@@ -68,9 +84,9 @@ app.get("/listings/:id/edit", wrapAsync(async (req, res, next) => {
 })
 );
 
-app.put("/listings/:id", wrapAsync(async (req, res, next) => {
+app.put("/listings/:id",validateListing, wrapAsync(async (req, res, next) => {
     let { id } = req.params;
-    let updated = await Listing.findByIdAndUpdate(id, req.body, { runValidator: true, new: true });
+    let updated = await Listing.findByIdAndUpdate(id, req.body.listing, { runValidators: true, new: true });
     console.log(updated);
     res.redirect(`/listings/${id}`);
 })
@@ -98,7 +114,7 @@ app.use((err, req, res, next) => {
     // ✅ If MongoDB ID is invalid — treat as 404 Not Found
     if (err.name === "CastError") {
         status = 404;
-        message = "Page Not Found";
+        message = "Invalid Listing ID";
     }
 
     res.status(status).render("error.ejs", { status, message });

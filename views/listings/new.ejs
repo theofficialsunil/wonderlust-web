@@ -22,7 +22,7 @@
                             <input
                                 type="text"
                                 id="title"
-                                name="title"
+                                name = "listing[title]"
                                 class="form-control"
                                 placeholder="Enter listing title"
                                 required
@@ -40,7 +40,7 @@
                             >
                             <textarea
                                 id="description"
-                                name="description"
+                                name="listing[description]"
                                 rows="3"
                                 class="form-control"
                                 placeholder="Describe your listing"
@@ -54,12 +54,11 @@
                             <input
                                 type="text"
                                 id="image"
-                                name="image"
+                                name="listing[image]"
                                 class="form-control"
                                 placeholder="Paste image link"
                             />
                         </div>
-
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label
@@ -70,7 +69,7 @@
                                 <input
                                     type="number"
                                     id="price"
-                                    name="price"
+                                    name="listing[price]"
                                     class="form-control"
                                     placeholder="₹ per night"
                                     required
@@ -89,7 +88,7 @@
                                 <input
                                     type="text"
                                     id="country"
-                                    name="country"
+                                    name="listing[country]"
                                     class="form-control"
                                     placeholder="Enter country"
                                     required
@@ -107,7 +106,7 @@
                             <input
                                 type="text"
                                 id="location"
-                                name="location"
+                                name="listing[location]" 
                                 class="form-control"
                                 placeholder="Enter city or area"
                                 required
@@ -117,7 +116,7 @@
                         <div class="d-grid mt-4">
                             <button
                                 type="submit"
-                                class="btn btn-primary btn-lg"
+                                class="btn btn-danger btn-lg"
                             >
                                 <i class="bi bi-plus-circle me-2"></i> Add
                                 Listing
@@ -144,7 +143,7 @@
     color: white;
     border-color: #ffffff82;
   }
-  .btn-primary:hover{
+  .btn-primary:hover,.btn-primary:active{
     background-color: #fd1f48;
     color: white;
     border-color: #ffffff82;
