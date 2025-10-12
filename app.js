@@ -2,13 +2,15 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
+const Review = require('./models/review.js');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
+
 // ** For Schema validation we use `joi` (npm-package);
-const listingSchema = require('./schema.js');
+const { listingSchema, reviewSchema } = require('./schema');
 
 require('dotenv').config();
 
@@ -43,6 +45,17 @@ const validateListing = (req,res,next) =>{
     if(error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400,errMsg);
+    }
+    else {
+        next();
+    }
+}
+// middle ware for validating - review Schema
+const validateReview = (req,res,next) => {
+    let {error} = reviewSchema.validate(req.body);
+    if(error) {
+        let errMsg = error.details.map((el)=> el.message).join(",");
+        throw new ExpressError(400,errMsg)
     }
     else {
         next();
@@ -99,6 +112,21 @@ app.delete("/listings/:id", wrapAsync(async (req, res, next) => {
     res.redirect(`/listings`);
 })
 );
+
+app.post("/listings/:id/reviews",validateReview,wrapAsync(async (req,res,next) =>{
+    let {id} = req.params;
+    let review = req.body.review;
+
+    let listing = await Listing.findById(id);
+    let newReview = new Review(review);
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+    console.log('new Review saved in DB');
+
+    res.redirect(`/listings/${id}`);
+})) 
 
 
 app.all(/.*/, (req, res) => {
