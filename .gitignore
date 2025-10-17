@@ -33,3 +33,5 @@ build/
 
 # Optional: coverage reports (if using tests)
 coverage/
+
+classroom/

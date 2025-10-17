@@ -58,8 +58,10 @@
         </div>
     </div>
 
-    <div class="card shadow-sm border-0 mx-auto mt-5"
-        style="max-width: 800px; border-radius: 16px">
+    <div
+        class="card shadow-sm border-0 mx-auto mt-5"
+        style="max-width: 800px; border-radius: 16px"
+    >
         <div class="card shadow-sm border-0" style="border-radius: 14px">
             <div class="card-body">
                 <h4 class="fw-semibold mb-3">Add a Review</h4>
@@ -112,6 +114,42 @@
             </div>
         </div>
     </div>
+    
+    <div
+        class="card shadow-sm border-0 mx-auto mt-5"
+        style="max-width: 800px; border-radius: 16px"
+    >
+        <h4 class="fw-semibold mb-3 px-3 pt-3">Reviews</h4>
+
+        <% if (listing.reviews.length === 0) { %>
+        <p class="text-muted px-3 pb-3">
+            No reviews yet. Be the first to review!
+        </p>
+        <% } %> <% for (let review of listing.reviews) { %>
+        <div class="review-card mb-3 mx-3 p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="stars">
+                    <% for (let i = 0; i < review.rating; i++) { %> ⭐ <% } %>
+                </span>
+
+                <form
+                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this review?');"
+                >
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Reviewer Name (Hardcoded for now) -->
+            <p class="fw-semibold mb-1">John Doe</p>
+
+            <p class="mb-0"><%= review.comment %></p>
+        </div>
+        <% } %>
+    </div>
 </div>
 
 <style>
@@ -133,5 +171,16 @@
     }
     .btn-light:hover {
         background-color: #f5f5f5;
+    }
+    .review-card {
+        background-color: #f8f9fa;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .stars {
+        font-size: 1.2rem;
+        color: #ffb400;
     }
 </style>
