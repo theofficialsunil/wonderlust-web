@@ -1,34 +1,84 @@
-<header class="main-header fixed-top ">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="/">
-        <svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false"
-          style="height: 2em; width: 2em; fill: #FF385C; margin-right: 8px;">
-          <path
-            d="m499.3 736.7c-51-64-81-120.1-91-168.1-10-39-6-70 11-93 18-21 41-35 67-35 27 0 52 13 72 39 20 26 31 62 27 101-4 39-19 76-46 116s-62 82-90 140z m500.7-236.7c0-277.1-222.9-500-500-500s-500 222.9-500 500c0 145.2 61.3 273.5 159.9 367.7 9 8.6 22.8 12.9 36.7 12.9 13.9 0 27.7-4.3 36.7-12.9 18.2-17.3 18.2-45.3 0-62.6-84.3-80.4-135.2-188.4-135.2-305.1 0-221.3 178.7-400 400-400s400 178.7 400 400c0 116.7-50.9 224.7-135.2 305.1-18.2 17.3-18.2 45.3 0 62.6 18.2 17.3 47.9 17.3 66.1 0 98.6-94.2 159.9-222.5 159.9-367.7z">
-          </path>
-        </svg>
-        <span class="fw-bold">Wonderlust</span>
-      </a>
+<header class="main-header fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <svg
+                    viewBox="0 0 1000 1000"
+                    role="presentation"
+                    aria-hidden="true"
+                    focusable="false"
+                    style="
+                        height: 2em;
+                        width: 2em;
+                        fill: #ff385c;
+                        margin-right: 8px;
+                    "
+                >
+                    <path
+                        d="m499.3 736.7c-51-64-81-120.1-91-168.1-10-39-6-70 11-93 18-21 41-35 67-35 27 0 52 13 72 39 20 26 31 62 27 101-4 39-19 76-46 116s-62 82-90 140z m500.7-236.7c0-277.1-222.9-500-500-500s-500 222.9-500 500c0 145.2 61.3 273.5 159.9 367.7 9 8.6 22.8 12.9 36.7 12.9 13.9 0 27.7-4.3 36.7-12.9 18.2-17.3 18.2-45.3 0-62.6-84.3-80.4-135.2-188.4-135.2-305.1 0-221.3 178.7-400 400-400s400 178.7 400 400c0 116.7-50.9 224.7-135.2 305.1-18.2 17.3-18.2 45.3 0 62.6 18.2 17.3 47.9 17.3 66.1 0 98.6-94.2 159.9-222.5 159.9-367.7z"
+                    ></path>
+                </svg>
+                <span class="fw-bold">Wanderlust</span>
+            </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item">
-            <a class="nav-link fw-semibold" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link fw-semibold" href="/listings">All Listings</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-danger ms-lg-3 mt-2 mt-lg-0" href="/listings/new">Add New Listing</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="/listings"
+                            >All Listings</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="btn btn-danger ms-lg-3 mt-2 mt-lg-0"
+                            href="/listings/new"
+                            >Add New Listing</a
+                        >
+                    </li>
+
+                    <% if (!currentUser) { %>
+                    <!-- When NOT logged in -->
+                    <li class="nav-item">
+                        <a
+                            class="btn btn-dark ms-lg-3 mt-2 mt-lg-0"
+                            href="/login"
+                            >Login</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="btn btn-danger ms-lg-2 mt-2 mt-lg-0"
+                            href="/signup"
+                            >Sign Up</a
+                        >
+                    </li>
+                    <% } else { %>
+                    <!-- When logged in -->
+                    <li class="nav-item">
+                        <a
+                            class="btn btn-outline-dark ms-lg-3 mt-2 mt-lg-0"
+                            href="/logout"
+                            >Logout</a
+                        >
+                    </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
