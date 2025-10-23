@@ -23,17 +23,37 @@
                 <%= listing.location %>, <%= listing.country %>
             </p>
 
-            <h5 class="text-dark fw-semibold mb-2">
-                ₹<%= listing.price.toLocaleString() %>
+            <!-- Price -->
+            <h5 class="text-dark fw-semibold mb-4">
+                ₹<%= listing.price.toLocaleString() %> / night
             </h5>
 
             <p class="text-secondary mb-4">
                 <%= listing.description || "No description provided." %>
             </p>
 
+            <div class="d-flex align-items-center mb-4 border-top pt-3">
+                <img
+                    src="<%= listing.owner.profilePhoto %>"
+                    alt="<%= listing.owner.username %>"
+                    class="rounded-circle me-3 border"
+                    style="width: 40px; height: 40px; object-fit: cover"
+                />
+                <div>
+                    <h6 class="mb-0 fw-semibold">
+                        Hosted by <%= listing.owner.name %>
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        @<%= listing.owner.username %>
+                    </p>
+                </div>
+            </div>
+
             <div
                 class="d-flex justify-content-between align-items-center flex-wrap gap-2"
             >
+                <% if(currentUser && currentUser._id.toString() ===
+                listing.owner._id.toString()) { %>
                 <a
                     href="/listings/<%= listing._id %>/edit"
                     class="btn btn-outline-primary px-4"
@@ -50,6 +70,7 @@
                         🗑️ Delete
                     </button>
                 </form>
+                <% } %>
 
                 <a href="/listings" class="btn btn-light border px-4">
                     ← Back to Listings
@@ -62,59 +83,52 @@
         class="card shadow-sm border-0 mx-auto mt-5"
         style="max-width: 800px; border-radius: 16px"
     >
-        <div class="card shadow-sm border-0" style="border-radius: 14px">
-            <div class="card-body">
-                <h4 class="fw-semibold mb-3">Add a Review</h4>
+        <div class="card-body">
+            <h4 class="fw-semibold mb-3">Add a Review</h4>
 
-                <form
-                    action="/listings/<%= listing._id %>/reviews"
-                    method="POST"
-                >
-                    <div class="mb-3">
-                        <label for="rating" class="form-label">Rating</label>
-                        <select
-                            name="review[rating]"
-                            id="rating"
-                            class="form-select"
-                            required
-                        >
-                            <option value="" disabled selected>
-                                Select Rating
-                            </option>
-                            <option value="1">⭐ 1</option>
-                            <option value="2">⭐⭐ 2</option>
-                            <option value="3">⭐⭐⭐ 3</option>
-                            <option value="4">⭐⭐⭐⭐ 4</option>
-                            <option value="5">⭐⭐⭐⭐⭐ 5</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="comment" class="form-label"
-                            >Your Review</label
-                        >
-                        <textarea
-                            name="review[comment]"
-                            id="comment"
-                            rows="4"
-                            class="form-control"
-                            placeholder="Share your thoughts..."
-                            required
-                        ></textarea>
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="btn w-100"
-                        style="background-color: #ff385c; color: white"
+            <form action="/listings/<%= listing._id %>/reviews" method="POST">
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select
+                        name="review[rating]"
+                        id="rating"
+                        class="form-select"
+                        required
                     >
-                        Submit Review
-                    </button>
-                </form>
-            </div>
+                        <option value="" disabled selected>
+                            Select Rating
+                        </option>
+                        <option value="1">⭐ 1</option>
+                        <option value="2">⭐⭐ 2</option>
+                        <option value="3">⭐⭐⭐ 3</option>
+                        <option value="4">⭐⭐⭐⭐ 4</option>
+                        <option value="5">⭐⭐⭐⭐⭐ 5</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Your Review</label>
+                    <textarea
+                        name="review[comment]"
+                        id="comment"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Share your thoughts..."
+                        required
+                    ></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn w-100"
+                    style="background-color: #ff385c; color: white"
+                >
+                    Submit Review
+                </button>
+            </form>
         </div>
     </div>
-    
+
     <div
         class="card shadow-sm border-0 mx-auto mt-5"
         style="max-width: 800px; border-radius: 16px"
@@ -125,7 +139,7 @@
         <p class="text-muted px-3 pb-3">
             No reviews yet. Be the first to review!
         </p>
-        <% } %> <% for (let review of listing.reviews) { %>
+        <% } else { %> <% for (let review of listing.reviews) { %>
         <div class="review-card mb-3 mx-3 p-3">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="stars">
@@ -143,12 +157,24 @@
                 </form>
             </div>
 
-            <!-- Reviewer Name (Hardcoded for now) -->
-            <p class="fw-semibold mb-1">John Doe</p>
+            <div class="d-flex align-items-center mb-2">
+                <img
+                    src="<%= review.author.profilePhoto %>"
+                    alt="<%= review.author.username %>"
+                    class="rounded-circle me-2 border"
+                    style="width: 35px; height: 35px; object-fit: cover"
+                />
+                <div>
+                    <p class="fw-semibold mb-0"><%= review.author.name %></p>
+                    <p class="text-muted small mb-0">
+                        @<%= review.author.username %>
+                    </p>
+                </div>
+            </div>
 
-            <p class="mb-0"><%= review.comment %></p>
+            <p class="mb-0 text-secondary"><%= review.comment %></p>
         </div>
-        <% } %>
+        <% } %> <% } %>
     </div>
 </div>
 
@@ -178,7 +204,6 @@
         border-radius: 12px;
         padding: 15px;
     }
-
     .stars {
         font-size: 1.2rem;
         color: #ffb400;

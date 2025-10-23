@@ -27,7 +27,7 @@
                       <%= listing.location %>
                     </p>
                     <p class="fw-semibold mb-0">
-                      ₹<%= listing.price.toLocaleString() %> for 2 nights
+                      ₹<%= (listing.price*2).toLocaleString() %> for 2 nights
                         <span class="text-muted">
                           • ★ 4.<%= Math.floor(Math.random() * 9) + 80 %></span>
                     </p>
