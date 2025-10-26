@@ -1,4 +1,5 @@
 const Listing = require("../models/listing.js");
+const { cloudinary } = require("../cloudConfig.js");
 
 module.exports.index = async (req, res, next) => {
     let alllistings = await Listing.find({});
@@ -27,8 +28,13 @@ module.exports.showListing = async (req, res, next) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
+    let url = req.file.path;
+    let filename = req.file.filename;
+
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+    newListing.image = {url,filename};
+    
     await newListing.save();
     // console.log(`added-Listing :- `, newListing);
     req.flash("success", "New Listing Added");
@@ -42,14 +48,38 @@ module.exports.renderEditForm = async (req, res, next) => {
 };
 
 module.exports.updateListing = async (req, res, next) => {
-    let { id } = req.params;
-    let updated = await Listing.findByIdAndUpdate(id, req.body.listing, {
-        runValidators: true,
-        new: true,
-    });
-    console.log(updated);
-    req.flash("success", "Listing Updated");
-    res.redirect(`/listings/${id}`);
+    try {
+        let { id } = req.params;
+        let updated = await Listing.findByIdAndUpdate(
+            id,
+            { ...req.body.listing },
+            { runValidators: true, new: true }
+        );
+
+        // If new file uploaded
+        if (req.file) {
+            // Delete old image if exists
+            if (updated.image && updated.image.filename) {
+                await cloudinary.uploader.destroy(updated.image.filename);
+            }
+
+            // Add new image data
+            updated.image = {
+                url: req.file.path,
+                filename: req.file.filename
+            };
+
+            await updated.save();
+        }
+
+        req.flash("success", "Listing Updated Successfully!");
+        res.redirect(`/listings/${id}`);
+
+    } catch (err) {
+        console.error("UPDATE ERROR:", err);
+        req.flash("error", "Failed to update listing!");
+        res.redirect(`/listings/${id}/edit`);
+    }
 };
 
 module.exports.destroyListing = async (req, res, next) => {

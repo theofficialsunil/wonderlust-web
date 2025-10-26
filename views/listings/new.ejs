@@ -14,6 +14,7 @@
                         method="POST"
                         novalidate
                         class="needs-validation"
+                        enctype="multipart/form-data"
                     >
                         <div class="mb-3">
                             <label for="title" class="form-label fw-semibold"
@@ -52,11 +53,12 @@
                                 >Image URL</label
                             >
                             <input
-                                type="text"
+                                type="file"
                                 id="image"
                                 name="listing[image]"
                                 class="form-control"
-                                placeholder="Paste image link"
+                                accept=".jpg,.jpeg,.png,.gif,.webp,.avif"
+                                required
                             />
                         </div>
                         <div class="row">

@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -31,7 +32,7 @@ const port = process.env.PORT || 8080;
 main();
 async function main() {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(process.env.ATLAS_DB_URL);
         console.log('✅ Connected to DB');
     } catch (err) {
         console.error('❌ Database connection error:', err);
@@ -42,7 +43,19 @@ app.get("/", (req, res) => {
     res.send(`This is root`);
 });
 
+const Store = MongoStore.create({
+    mongoUrl:process.env.ATLAS_DB_URL,
+    crypto:{
+        secret:process.env.COOKIE_SECRET,
+    },
+    touchAfter:24 * 3600 * 1000,
+});
+
+Store.on("error",(err)=>{
+    console.log('Error in Mongo Session Store',err);
+})
 app.use(session({
+    store:Store,
     secret:process.env.COOKIE_SECRET,
     resave:false,
     saveUninitialized:true,
