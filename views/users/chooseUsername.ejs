@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container my-5 text-center">
+  <div class="card shadow-sm border-0 mx-auto p-4" style="max-width: 500px; border-radius: 16px;">
+    <h3 class="fw-bold mb-4">Choose Your Username</h3>
+    <form action="/auth/save-username" method="POST">
+      <input type="hidden" name="googleId" value="<%= googleId %>" />
+      <div class="mb-3">
+        <input
+          type="text"
+          name="username"
+          class="form-control text-center"
+          placeholder="Enter your username"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn w-100"
+        style="background-color: #ff385c; color: white"
+      >
+        Save Username
+      </button>
+    </form>
+  </div>
+</div>
