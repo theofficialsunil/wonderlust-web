@@ -8,13 +8,13 @@ const ExpressError = require('./utils/ExpressError.js');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
 const User = require('./models/user.js');
+const passport = require("./config/passport");
 
 const listingRouter = require('./routes/listing.js');
 const reviewRouter = require('./routes/review.js');
 const userRouter = require('./routes/user.js');
+const authRouter = require('./routes/auth.js');
 
 require('dotenv').config();
 
@@ -40,7 +40,7 @@ async function main() {
 }
 
 app.get("/", (req, res) => {
-    res.send(`This is root`);
+    res.redirect("/listings");
 });
 
 const Store = MongoStore.create({
@@ -66,14 +66,10 @@ app.use(session({
     }
 }));
 
-app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+app.use(flash());
 
 app.use((req,res,next) =>{
     res.locals.currentUser = req.user;
@@ -96,6 +92,7 @@ app.use((req,res,next) =>{
 
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
+app.use("/auth/",authRouter);
 app.use("/",userRouter);
 
 app.all(/.*/, (req, res) => {
