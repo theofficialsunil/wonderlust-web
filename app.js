@@ -105,7 +105,6 @@ app.use((err, req, res, next) => {
     let status = err.status || 500;
     let message = err.message || "Something went wrong!";
 
-    // ✅ If MongoDB ID is invalid — treat as 404 Not Found
     if (err.name === "CastError") {
         status = 404;
         message = "Invalid Listing ID";

@@ -29,7 +29,7 @@ module.exports.login = (req, res) => {
     req.flash("success", "Logged In!");
     let redirectUrl = res.locals.redirectUrl || "/listings";
 
-    // 🧹 Remove any invalid method-override query parameters
+    //  Remove any invalid method-override query parameters
     if (redirectUrl.includes("_method=")) {
         // Extract just the base path (before ?_method=)
         redirectUrl = redirectUrl.split("?_method=")[0];

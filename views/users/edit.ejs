@@ -1,0 +1,86 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+  <div class="card shadow-sm mx-auto" style="max-width: 550px; border-radius: 16px;">
+    <div class="card-body p-4">
+      <h3 class="text-center fw-bold mb-4">Edit Profile</h3>
+
+      <form action="/users/<%= currentUser._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+
+        <div class="text-center mb-4">
+          <label for="profilePhotoInput" style="cursor: pointer;">
+            <img 
+              src="<%= currentUser.profilePhoto || '/images/default-avatar.png' %>" 
+              alt="Profile Photo" 
+              id="profilePhotoPreview"
+              class="rounded-circle shadow-sm"
+              width="150" height="150">
+          </label>
+          <input 
+            type="file" 
+            name="profilePhoto" 
+            id="profilePhotoInput" 
+            accept="image/*" 
+            class="d-none"
+            onchange="previewProfilePhoto(event)">
+          <p class="text-muted mt-2">Click the photo to change</p>
+        </div>
+
+        <div class="mb-3">
+          <label for="name" class="form-label fw-semibold">Full Name</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="name" 
+            name="name" 
+            value="<%= currentUser.name %>" 
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label for="username" class="form-label fw-semibold">Username</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="username" 
+            name="username" 
+            value="<%= currentUser.username %>" 
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold">Email</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            value="<%= currentUser.email %>" 
+            readonly>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary fw-semibold">
+            <i class="bi bi-save"></i> Save Changes
+          </button>
+          <a href="/user/profile" class="btn btn-outline-secondary">
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function previewProfilePhoto(event) {
+    const input = event.target;
+    const preview = document.getElementById('profilePhotoPreview');
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => preview.src = e.target.result;
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>

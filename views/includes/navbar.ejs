@@ -18,7 +18,7 @@
                         d="m499.3 736.7c-51-64-81-120.1-91-168.1-10-39-6-70 11-93 18-21 41-35 67-35 27 0 52 13 72 39 20 26 31 62 27 101-4 39-19 76-46 116s-62 82-90 140z m500.7-236.7c0-277.1-222.9-500-500-500s-500 222.9-500 500c0 145.2 61.3 273.5 159.9 367.7 9 8.6 22.8 12.9 36.7 12.9 13.9 0 27.7-4.3 36.7-12.9 18.2-17.3 18.2-45.3 0-62.6-84.3-80.4-135.2-188.4-135.2-305.1 0-221.3 178.7-400 400-400s400 178.7 400 400c0 116.7-50.9 224.7-135.2 305.1-18.2 17.3-18.2 45.3 0 62.6 18.2 17.3 47.9 17.3 66.1 0 98.6-94.2 159.9-222.5 159.9-367.7z"
                     ></path>
                 </svg>
-                <span class="fw-bold">Wanderlust</span>
+                <span class="fw-bold">Bhraman</span>
             </a>
 
             <button
@@ -69,12 +69,57 @@
                     </li>
                     <% } else { %>
                     <!-- When logged in -->
-                    <li class="nav-item">
+                    <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0">
                         <a
-                            class="btn btn-outline-dark ms-lg-3 mt-2 mt-lg-0"
-                            href="/logout"
-                            >Logout</a
+                            class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
                         >
+                            <img
+                                src="<%= currentUser.profilePhoto || '/images/default-avatar.png' %>"
+                                alt="Profile"
+                                class="rounded-circle me-2"
+                                width="36"
+                                height="36"
+                                style="object-fit: cover"
+                                referrerpolicy="no-referrer"
+                            />
+                            <span class="fw-semibold text-dark"
+                                >@<%= currentUser.username %></span
+                            >
+                        </a>
+                        <ul
+                            class="dropdown-menu dropdown-menu-end shadow-sm"
+                            aria-labelledby="navbarDropdown"
+                        >
+                            <li>
+                                <a class="dropdown-item" href="/user/profile">
+                                    <i class="bi bi-person-circle"></i> My
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="/user/<%= currentUser._id %>/edit"
+                                >
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                    Profile
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <a
+                                    class="dropdown-item text-danger"
+                                    href="/logout"
+                                >
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <% } %>
                 </ul>
